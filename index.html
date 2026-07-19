@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>学员专区 · 安全五点半 EHS 英语角</title>
+<style>
+  :root{
+    --blue:#0066cc; --blue-light:#66a8ff; --orange:#ff7700;
+    --ink:#333; --bg:#f5f9ff; --line:#d8e6f7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Microsoft YaHei","微软雅黑",sans-serif;
+    background:linear-gradient(180deg,#eaf3ff 0%,#f5f9ff 40%);
+    color:var(--ink); line-height:1.6; padding:32px 16px 80px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px;margin:0 auto;}
+  header.top{text-align:center;margin-bottom:24px;}
+  header.top h1{color:var(--blue);font-size:28px;letter-spacing:1px;}
+  header.top p{color:#557;font-size:14px;margin-top:6px;}
+  .badge{display:inline-block;background:var(--blue);color:#fff;font-size:12px;
+    padding:3px 10px;border-radius:20px;margin-top:10px;}
+
+  /* gate */
+  #gate{
+    position:fixed;inset:0;background:rgba(10,40,80,.92);z-index:50;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  #gate .box{background:#fff;border-radius:16px;padding:32px 28px;max-width:360px;width:100%;
+    text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.3);}
+  #gate h2{color:var(--blue);font-size:20px;margin-bottom:6px;}
+  #gate p{font-size:13px;color:#779;margin-bottom:18px;}
+  #gate input{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:10px;
+    font-size:16px;text-align:center;letter-spacing:2px;outline:none;}
+  #gate input:focus{border-color:var(--blue-light);}
+  #gate button{margin-top:16px;width:100%;padding:12px;border:none;border-radius:10px;
+    background:var(--blue);color:#fff;font-size:16px;cursor:pointer;transition:.2s;}
+  #gate button:hover{background:#0052a3;}
+  #gate .err{color:#e23;font-size:13px;min-height:18px;margin-top:10px;}
+
+  /* status banners */
+  .banner{background:#fff;border:2px dashed var(--line);border-radius:12px;
+    padding:20px;text-align:center;color:#557;font-size:15px;margin-bottom:20px;}
+
+  /* week grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    box-shadow:0 4px 14px rgba(0,102,204,.06);transition:.2s;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,102,204,.14);}
+  .card .hd{background:var(--blue);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
+  .card .hd .wk{font-weight:bold;font-size:15px;}
+  .card .hd .dt{font-size:12px;opacity:.85;}
+  .card .bd{padding:14px 16px;}
+  .card .topic{font-size:15px;color:var(--orange);font-weight:bold;margin-bottom:4px;}
+  .card .pack{font-size:12px;color:#889;margin-bottom:10px;}
+  .card ul{list-style:none;}
+  .card li{font-size:13px;padding:6px 0;border-top:1px solid #eef3fb;display:flex;justify-content:space-between;align-items:center;}
+  .card li a{color:var(--blue);text-decoration:none;}
+  .card li a:hover{text-decoration:underline;}
+  .card li .tag{font-size:11px;color:#aaa;}
+  .lock{filter:grayscale(.6);opacity:.7;}
+  .lock .bd{position:relative;}
+  .lock .bd::after{content:"🔒 敬请期待 · 解锁于 "attr(data-unlock);display:block;margin-top:8px;
+    font-size:12px;color:#e08;text-align:center;background:#fff4f4;padding:6px;border-radius:8px;}
+  .prog{background:#fff8ef;border:1px solid #ffd9a8;border-radius:8px;padding:8px 10px;
+    font-size:12px;color:#b5620a;margin-top:8px;}
+
+  .note{background:#fff;border-left:4px solid var(--orange);border-radius:8px;
+    padding:14px 16px;font-size:13px;color:#665;margin-top:24px;}
+  .note b{color:var(--orange);}
+
+  /* home fab */
+  .home-fab{position:fixed;left:16px;bottom:16px;background:var(--blue);color:#fff;
+    padding:10px 16px;border-radius:30px;font-size:14px;text-decoration:none;
+    box-shadow:0 4px 14px rgba(0,102,204,.4);z-index:30;}
+  .home-fab:hover{background:#0052a3;}
+  footer{text-align:center;color:#99a;font-size:12px;margin-top:30px;}
+  .eq{display:inline-block;margin-top:10px;background:#fff;border:1px solid var(--line);
+    color:var(--blue);padding:8px 16px;border-radius:24px;font-size:13px;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<!-- 门禁 -->
+<div id="gate">
+  <div class="box">
+    <h2>学员专区 · 门禁</h2>
+    <p>请输入本期课程口令（开课时群内发放）</p>
+    <input id="pwd" type="text" placeholder="口令" autocomplete="off" />
+    <button onclick="unlock()">进入专区</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div class="wrap" id="main" style="display:none;">
+  <header class="top">
+    <h1>安全五点半 · EHS 英语角</h1>
+    <p>学员专区 · 每周一开放当周资料包</p>
+    <span class="badge">课程有效窗口 2026-07-27 ～ 2026-10-31</span>
+  </header>
+
+  <div id="status"></div>
+  <div class="grid" id="weeks"></div>
+
+  <div class="note">
+    <b>关于资料更新：</b>课包 D「承包商 &amp; 高风险一」采用<b>做一节的开放一节</b>——W4 先上第 1 课，后续课时备齐后将即时追加到对应周次，无需等待整体备完。
+    <br><b>关于对话练习：</b>每周的对话练习同步发布于 <b>鹅圈子</b>，专区此处挂链接引导，圈子内完成打卡与互评。
+  </div>
+
+  <a class="eq" href="#" id="eqLink">→ 前往鹅圈子 · 本周对话练习</a>
+
+  <footer>本专区资料仅在课程有效窗口内可访问，结课后自动归档。最终解释权归安全五点半 EHS 英语角。</footer>
+</div>
+
+<a class="home-fab" href="https://wangdn2026.github.io/ehs-shelf/">← 返回书架</a>
+
+<script>
+/* ===== 配置（改这里即可，无需动其他逻辑） ===== */
+const COHORT_PASSWORD = "EHS0727";           // 本期口令（群内发放）
+const COURSE_START = new Date("2026-07-27T00:00:00");
+const COURSE_END   = new Date("2026-10-31T23:59:59");
+
+const READ  = "https://wangdn2026.github.io/ehs-readalong/";   // 跟读材料
+const FLIP  = "https://wangdn2026.github.io/ehs-flipcards/";   // A6 点读卡
+const TRIAL = "https://wangdn2026.github.io/ehs-trial/";       // 试听样课
+const EQ    = "https://example.com/equanzi";                  // TODO: 替换为你的鹅圈子主页地址
+
+/* 六周资料配置；unlock=该周一 0 点；mats 中 ready:false 表示备课中 */
+const WEEKS = [
+  { wk:"W1", date:"2026-07-27", pack:"课包A", topic:"管理体系",
+    mats:[
+      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
+      {name:"A6 点读卡", url:FLIP, ready:true},
+      {name:"场景带练剧本 W1", url:"#", ready:false},
+      {name:"本周作业 + 打卡", url:"#", ready:false},
+    ]},
+  { wk:"W2", date:"2026-08-03", pack:"课包B", topic:"法律法规",
+    mats:[
+      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
+      {name:"A6 点读卡", url:FLIP, ready:true},
+      {name:"场景带练剧本 W2", url:"#", ready:false},
+      {name:"本周作业 + 打卡", url:"#", ready:false},
+    ]},
+  { wk:"W3", date:"2026-08-10", pack:"课包C", topic:"一般健康安全",
+    mats:[
+      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
+      {name:"A6 点读卡", url:FLIP, ready:true},
+      {name:"场景带练剧本 W3", url:"#", ready:false},
+      {name:"本周作业 + 打卡", url:"#", ready:false},
+    ]},
+  { wk:"W4", date:"2026-08-17", pack:"课包D", topic:"承包商 & 高风险一", progressive:true,
+    mats:[
+      {name:"第1课 预习跟读句", url:READ, ready:true},
+      {name:"第1课 A6 点读卡", url:FLIP, ready:true},
+      {name:"第1课 带练剧本", url:"#", ready:false},
+      {name:"后续课时（备齐后上架）", url:"#", ready:false},
+    ]},
+  { wk:"W5", date:"2026-08-24", pack:"课包E", topic:"高风险二",
+    mats:[
+      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
+      {name:"A6 点读卡", url:FLIP, ready:true},
+      {name:"场景带练剧本 W5", url:"#", ready:false},
+      {name:"本周作业 + 打卡", url:"#", ready:false},
+    ]},
+  { wk:"W6", date:"2026-08-31", pack:"课包F", topic:"环境 ESG",
+    mats:[
+      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
+      {name:"A6 点读卡", url:FLIP, ready:true},
+      {name:"场景带练剧本 W6", url:"#", ready:false},
+      {name:"本周作业 + 打卡", url:"#", ready:false},
+    ]},
+];
+
+/* ===== 门禁逻辑 ===== */
+function unlock(){
+  const v = document.getElementById("pwd").value.trim();
+  const err = document.getElementById("err");
+  if(v !== COHORT_PASSWORD){ err.textContent = "口令不正确，请核对群内发放的信息"; return; }
+  sessionStorage.setItem("ehs_zone_ok","1");
+  document.getElementById("gate").style.display = "none";
+  document.getElementById("main").style.display = "block";
+  render();
+}
+
+function render(){
+  const now = new Date();
+  const status = document.getElementById("status");
+  const weeksEl = document.getElementById("weeks");
+  document.getElementById("eqLink").href = EQ;
+
+  // 时间窗口总控
+  if(now < COURSE_START){
+    status.innerHTML = '<div class="banner">📭 尚未开课——本期课程将于 <b>2026-07-27</b> 正式开放，请输入口令后耐心等待。</div>';
+    weeksEl.innerHTML = "";
+    return;
+  }
+  if(now > COURSE_END){
+    status.innerHTML = '<div class="banner">🗄️ 已结课——资料访问窗口已于 <b>2026-10-31</b> 关闭并归档。如需回顾请联系教务。</div>';
+    weeksEl.innerHTML = "";
+    return;
+  }
+  status.innerHTML = '<div class="banner">✅ 课程进行中——以下资料包按周一解锁，持口令可见。</div>';
+
+  // 逐周渲染
+  weeksEl.innerHTML = "";
+  WEEKS.forEach(w=>{
+    const unlockDate = new Date(w.date + "T00:00:00");
+    const locked = now < unlockDate;
+    let html = '<div class="card'+(locked?" lock":"")+'">';
+    html += '<div class="hd"><span class="wk">'+w.wk+' · '+w.pack+'</span><span class="dt">'+w.date+'</span></div>';
+    html += '<div class="bd"'+(locked?' data-unlock="'+w.date+'"':'')+'>';
+    html += '<div class="topic">'+w.topic+'</div>';
+    html += '<div class="pack">'+w.pack+'</div><ul>';
+    w.mats.forEach(m=>{
+      if(m.ready){
+        html += '<li><a href="'+m.url+'" target="_blank">'+m.name+'</a><span class="tag">可访问</span></li>';
+      }else{
+        html += '<li><span style="color:#aaa">'+m.name+'</span><span class="tag">备课中</span></li>';
+      }
+    });
+    html += '</ul>';
+    if(w.progressive){
+      html += '<div class="prog">🌱 渐进上架：第1课已开放，后续课时备齐后自动追加。</div>';
+    }
+    html += '</div></div>';
+    weeksEl.insertAdjacentHTML("beforeend", html);
+  });
+}
+
+// 已解锁则跳过门禁
+if(sessionStorage.getItem("ehs_zone_ok")==="1"){
+  document.getElementById("gate").style.display="none";
+  document.getElementById("main").style.display="block";
+  render();
+}
+// 回车提交
+document.getElementById("pwd").addEventListener("keyup",e=>{ if(e.key==="Enter") unlock(); });
+</script>
+</body>
+</html>
