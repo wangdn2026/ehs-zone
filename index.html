@@ -120,7 +120,7 @@
   <div class="note">
     <b>本周节奏：</b>每周一为<b>训练营</b>（主要内容讲解 + 对话练习），每周三为<b>线上同学会</b>（复习 + 练习，偶尔邀请外部人员参加）——两者共用当周同一节课主题。<br>
     <b>资料释放：</b>第 1 课（7/27 周一开营）主题已确定，素材陆续上架；后续每节课备齐后即时追加，做到"做一节的开放一节"。<br>
-    <b>对话练习：</b>每节课的对话练习（音频 + 文本）同步发布于 <b>鹅圈子</b>，专区此处挂链接引导，圈子内完成打卡与互评。
+    <b>对话练习：</b>每节课的对话练习（音频 + 文本）由教务<b>提前 3 天（周五）发邮件</b>领取，再转发至微信群；学员在学员专区完成跟读与打卡。
   </div>
 
   <div class="unlock-rule">
@@ -130,7 +130,7 @@
     · 全部资料受口令 <b>EHS0727</b> 门禁 + 有效窗口（7/24 ～ 10/31）管控，结课后自动归档。
   </div>
 
-  <a class="eq" href="#" id="eqLink">→ 前往鹅圈子 · 本周对话练习</a>
+  <a class="eq" href="https://wangdn2026.github.io/ehs-zone/" id="eqLink">→ 学员专区 · 本周资料（口令 EHS0727）</a>
 
   <footer>本专区资料仅在课程有效窗口内可访问，结课后自动归档。最终解释权归安全五点半 EHS 英语角。</footer>
 </div>
@@ -145,7 +145,7 @@ const COURSE_END   = new Date("2026-10-31T23:59:59");
 
 const READ  = "https://wangdn2026.github.io/ehs-readalong/";   // 跟读材料
 const FLIP  = "https://wangdn2026.github.io/ehs-flipcards/";   // A6 点读卡
-const EQ    = "https://example.com/equanzi";                  // TODO: 替换为你的鹅圈子主页地址
+const EQ    = "https://wangdn2026.github.io/ehs-zone/";       // 学员专区（资料/跟读入口）
 
 /* 12 周主题；每周一训练营 + 周三同学会，共用该周主题。
    L1 主题已知（生活 + EHS 两部分），L2–L12 备课中。 */
@@ -193,11 +193,11 @@ function bootcampMats(n){
     {name:"本课作业 + 打卡", url:"#", ready:false},
   ];
 }
-/* 同学会（周三）材料：复习回顾 + 鹅圈子练习 + 外部嘉宾 */
+/* 同学会（周三）材料：复习回顾 + 邮件领取练习 + 外部嘉宾 */
 function peerMats(n){
   return [
     {name:"复习要点回顾 L"+n, url:"#", ready:false},
-    {name:"本周对话练习（鹅圈子）", url:EQ, ready:false},
+    {name:"本周对话练习（邮件领取）", url:EQ, ready:false},
     {name:"外部嘉宾分享（如有）", url:"#", ready:false},
   ];
 }
