@@ -97,7 +97,7 @@
 <div class="wrap" id="main" style="display:none;">
   <header class="top">
     <h1>安全五点半 · EHS 英语角</h1>
-    <p>学员专区 · 每周一开放当周资料包</p>
+    <p>学员专区 · 课包 D（承包商 &amp; 高风险一）12 节课逐课开放</p>
     <span class="badge">课程有效窗口 2026-07-27 ～ 2026-10-31</span>
   </header>
 
@@ -105,8 +105,8 @@
   <div class="grid" id="weeks"></div>
 
   <div class="note">
-    <b>关于资料更新：</b>课包 D「承包商 &amp; 高风险一」采用<b>做一节的开放一节</b>——W4 先上第 1 课，后续课时备齐后将即时追加到对应周次，无需等待整体备完。
-    <br><b>关于对话练习：</b>每周的对话练习同步发布于 <b>鹅圈子</b>，专区此处挂链接引导，圈子内完成打卡与互评。
+    <b>关于资料更新：</b>本期课程即 <b>课包 D「承包商 &amp; 高风险一」的 12 节课</b>，逐课开放——第 1 课（7/27）素材已上架，后续每节课备齐后即时追加，做到"做一节的开放一节"。
+    <br><b>关于对话练习：</b>每节课的对话练习同步发布于 <b>鹅圈子</b>，专区此处挂链接引导，圈子内完成打卡与互评。
   </div>
 
   <a class="eq" href="#" id="eqLink">→ 前往鹅圈子 · 本周对话练习</a>
@@ -127,50 +127,29 @@ const FLIP  = "https://wangdn2026.github.io/ehs-flipcards/";   // A6 点读卡
 const TRIAL = "https://wangdn2026.github.io/ehs-trial/";       // 试听样课
 const EQ    = "https://example.com/equanzi";                  // TODO: 替换为你的鹅圈子主页地址
 
-/* 六周资料配置；unlock=该周一 0 点；mats 中 ready:false 表示备课中 */
-const WEEKS = [
-  { wk:"W1", date:"2026-07-27", pack:"课包A", topic:"管理体系",
-    mats:[
-      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
-      {name:"A6 点读卡", url:FLIP, ready:true},
-      {name:"场景带练剧本 W1", url:"#", ready:false},
-      {name:"本周作业 + 打卡", url:"#", ready:false},
-    ]},
-  { wk:"W2", date:"2026-08-03", pack:"课包B", topic:"法律法规",
-    mats:[
-      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
-      {name:"A6 点读卡", url:FLIP, ready:true},
-      {name:"场景带练剧本 W2", url:"#", ready:false},
-      {name:"本周作业 + 打卡", url:"#", ready:false},
-    ]},
-  { wk:"W3", date:"2026-08-10", pack:"课包C", topic:"一般健康安全",
-    mats:[
-      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
-      {name:"A6 点读卡", url:FLIP, ready:true},
-      {name:"场景带练剧本 W3", url:"#", ready:false},
-      {name:"本周作业 + 打卡", url:"#", ready:false},
-    ]},
-  { wk:"W4", date:"2026-08-17", pack:"课包D", topic:"承包商 & 高风险一", progressive:true,
-    mats:[
-      {name:"第1课 预习跟读句", url:READ, ready:true},
-      {name:"第1课 A6 点读卡", url:FLIP, ready:true},
-      {name:"第1课 带练剧本", url:"#", ready:false},
-      {name:"后续课时（备齐后上架）", url:"#", ready:false},
-    ]},
-  { wk:"W5", date:"2026-08-24", pack:"课包E", topic:"高风险二",
-    mats:[
-      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
-      {name:"A6 点读卡", url:FLIP, ready:true},
-      {name:"场景带练剧本 W5", url:"#", ready:false},
-      {name:"本周作业 + 打卡", url:"#", ready:false},
-    ]},
-  { wk:"W6", date:"2026-08-31", pack:"课包F", topic:"环境 ESG",
-    mats:[
-      {name:"预习跟读句（生活/EHS）", url:READ, ready:true},
-      {name:"A6 点读卡", url:FLIP, ready:true},
-      {name:"场景带练剧本 W6", url:"#", ready:false},
-      {name:"本周作业 + 打卡", url:"#", ready:false},
-    ]},
+/* 课包 D 12 节课；每节对应一次直播（周一/周三），unlock=该课日期 0 点；
+   coreReady=true 表示跟读/点读等通用素材已可访问，false 表示备课中 */
+function L(n,date,wd,wk,coreReady){
+  return {n,date,wd,wk,mats:[
+    {name:"预习跟读句（生活/EHS）", url:READ, ready:coreReady},
+    {name:"A6 点读卡", url:FLIP, ready:coreReady},
+    {name:"场景带练剧本 L"+n, url:"#", ready:false},
+    {name:"本课作业 + 打卡", url:"#", ready:false},
+  ]};
+}
+const LESSONS = [
+  L(1, "2026-07-27","周一","W1",true),
+  L(2, "2026-07-29","周三","W1",false),
+  L(3, "2026-08-03","周一","W2",false),
+  L(4, "2026-08-05","周三","W2",false),
+  L(5, "2026-08-10","周一","W3",false),
+  L(6, "2026-08-12","周三","W3",false),
+  L(7, "2026-08-17","周一","W4",false),
+  L(8, "2026-08-19","周三","W4",false),
+  L(9, "2026-08-24","周一","W5",false),
+  L(10,"2026-08-26","周三","W5",false),
+  L(11,"2026-08-31","周一","W6",false),
+  L(12,"2026-09-02","周三","W6",false),
 ];
 
 /* ===== 门禁逻辑 ===== */
@@ -201,19 +180,19 @@ function render(){
     weeksEl.innerHTML = "";
     return;
   }
-  status.innerHTML = '<div class="banner">✅ 课程进行中——以下资料包按周一解锁，持口令可见。</div>';
+  status.innerHTML = '<div class="banner">✅ 课程进行中——课包 D 共 12 节课，按每次课（周一/周三）解锁，持口令可见。</div>';
 
-  // 逐周渲染
+  // 逐课渲染
   weeksEl.innerHTML = "";
-  WEEKS.forEach(w=>{
-    const unlockDate = new Date(w.date + "T00:00:00");
+  LESSONS.forEach(l=>{
+    const unlockDate = new Date(l.date + "T00:00:00");
     const locked = now < unlockDate;
     let html = '<div class="card'+(locked?" lock":"")+'">';
-    html += '<div class="hd"><span class="wk">'+w.wk+' · '+w.pack+'</span><span class="dt">'+w.date+'</span></div>';
-    html += '<div class="bd"'+(locked?' data-unlock="'+w.date+'"':'')+'>';
-    html += '<div class="topic">'+w.topic+'</div>';
-    html += '<div class="pack">'+w.pack+'</div><ul>';
-    w.mats.forEach(m=>{
+    html += '<div class="hd"><span class="wk">L'+l.n+' · 课包D</span><span class="dt">'+l.date+' '+l.wd+'</span></div>';
+    html += '<div class="bd"'+(locked?' data-unlock="'+l.date+'"':'')+'>';
+    html += '<div class="topic">第'+l.n+'课</div>';
+    html += '<div class="pack">'+l.wk+'</div><ul>';
+    l.mats.forEach(m=>{
       if(m.ready){
         html += '<li><a href="'+m.url+'" target="_blank">'+m.name+'</a><span class="tag">可访问</span></li>';
       }else{
@@ -221,8 +200,8 @@ function render(){
       }
     });
     html += '</ul>';
-    if(w.progressive){
-      html += '<div class="prog">🌱 渐进上架：第1课已开放，后续课时备齐后自动追加。</div>';
+    if(l.n===1){
+      html += '<div class="prog">🌱 渐进上架：第1课素材已开放，后续逐课补齐。</div>';
     }
     html += '</div></div>';
     weeksEl.insertAdjacentHTML("beforeend", html);
