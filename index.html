@@ -16,7 +16,7 @@
     color:var(--ink); line-height:1.6; padding:32px 16px 80px;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:880px;margin:0 auto;}
+  .wrap{max-width:900px;margin:0 auto;}
   header.top{text-align:center;margin-bottom:24px;}
   header.top h1{color:var(--blue);font-size:28px;letter-spacing:1px;}
   header.top p{color:#557;font-size:14px;margin-top:6px;}
@@ -44,28 +44,38 @@
   .banner{background:#fff;border:2px dashed var(--line);border-radius:12px;
     padding:20px;text-align:center;color:#557;font-size:15px;margin-bottom:20px;}
 
-  /* week grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+  /* lesson grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;}
   .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-    box-shadow:0 4px 14px rgba(0,102,204,.06);transition:.2s;}
+    box-shadow:0 4px 14px rgba(0,102,204,.06);transition:.2s;display:flex;flex-direction:column;}
   .card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,102,204,.14);}
   .card .hd{background:var(--blue);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
-  .card .hd .wk{font-weight:bold;font-size:15px;}
-  .card .hd .dt{font-size:12px;opacity:.85;}
-  .card .bd{padding:14px 16px;}
-  .card .topic{font-size:15px;color:var(--orange);font-weight:bold;margin-bottom:4px;}
-  .card .pack{font-size:12px;color:#889;margin-bottom:10px;}
-  .card ul{list-style:none;}
-  .card li{font-size:13px;padding:6px 0;border-top:1px solid #eef3fb;display:flex;justify-content:space-between;align-items:center;}
-  .card li a{color:var(--blue);text-decoration:none;}
-  .card li a:hover{text-decoration:underline;}
-  .card li .tag{font-size:11px;color:#aaa;}
-  .lock{filter:grayscale(.6);opacity:.7;}
-  .lock .bd{position:relative;}
-  .lock .bd::after{content:"🔒 敬请期待 · 解锁于 "attr(data-unlock);display:block;margin-top:8px;
-    font-size:12px;color:#e08;text-align:center;background:#fff4f4;padding:6px;border-radius:8px;}
+  .card .hd .lk{font-weight:bold;font-size:15px;}
+  .card .hd .wk{font-size:12px;opacity:.9;}
+  .card .theme{padding:12px 16px 0;font-size:15px;color:var(--orange);font-weight:bold;line-height:1.5;}
+  .card .chips{display:flex;gap:8px;flex-wrap:wrap;padding:8px 16px 0;}
+  .card .chip{font-size:11px;padding:3px 9px;border-radius:14px;}
+  .chip--life{background:#eaf6ff;color:#0066cc;border:1px solid #bcdcff;}
+  .chip--ehs{background:#fff3e6;color:#b5620a;border:1px solid #ffd9a8;}
+
+  .slots{padding:12px 16px 16px;display:flex;flex-direction:column;gap:10px;}
+  .slot{border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .slot-hd{background:#f2f7ff;padding:8px 12px;font-size:13px;font-weight:bold;color:var(--blue);
+    display:flex;justify-content:space-between;align-items:center;}
+  .slot-hd .sub{font-weight:normal;font-size:11px;color:#889;}
+  .slot-bd{padding:8px 12px;}
+  .slot-bd ul{list-style:none;}
+  .slot-bd li{font-size:13px;padding:5px 0;border-top:1px solid #eef3fb;display:flex;justify-content:space-between;align-items:center;}
+  .slot-bd li a{color:var(--blue);text-decoration:none;}
+  .slot-bd li a:hover{text-decoration:underline;}
+  .slot-bd li .tag{font-size:11px;color:#aaa;}
+  .slot-bd li .muted{color:#aaa;}
+  .lock{border-style:dashed;opacity:.85;}
+  .lock .slot-hd{background:#fbfbfb;color:#999;}
+  .lock-body{background:#fff6f6;color:#e08;font-size:12px;text-align:center;padding:10px;}
+
   .prog{background:#fff8ef;border:1px solid #ffd9a8;border-radius:8px;padding:8px 10px;
-    font-size:12px;color:#b5620a;margin-top:8px;}
+    font-size:12px;color:#b5620a;margin:4px 16px 16px;}
 
   .note{background:#fff;border-left:4px solid var(--orange);border-radius:8px;
     padding:14px 16px;font-size:13px;color:#665;margin-top:24px;}
@@ -77,7 +87,7 @@
     box-shadow:0 4px 14px rgba(0,102,204,.4);z-index:30;}
   .home-fab:hover{background:#0052a3;}
   footer{text-align:center;color:#99a;font-size:12px;margin-top:30px;}
-  .eq{display:inline-block;margin-top:10px;background:#fff;border:1px solid var(--line);
+  .eq{display:inline-block;margin-top:14px;background:#fff;border:1px solid var(--line);
     color:var(--blue);padding:8px 16px;border-radius:24px;font-size:13px;text-decoration:none;}
 </style>
 </head>
@@ -97,16 +107,17 @@
 <div class="wrap" id="main" style="display:none;">
   <header class="top">
     <h1>安全五点半 · EHS 英语角</h1>
-    <p>学员专区 · 课包 D（承包商 &amp; 高风险一）12 节课逐课开放</p>
+    <p>学员专区 · 课包 D（承包商 &amp; 高风险一）· 12 周主题逐周开放</p>
     <span class="badge">课程有效窗口 2026-07-27 ～ 2026-10-31</span>
   </header>
 
   <div id="status"></div>
-  <div class="grid" id="weeks"></div>
+  <div class="grid" id="lessons"></div>
 
   <div class="note">
-    <b>关于资料更新：</b>本期课程即 <b>课包 D「承包商 &amp; 高风险一」的 12 节课</b>，逐课开放——第 1 课（7/27）素材已上架，后续每节课备齐后即时追加，做到"做一节的开放一节"。
-    <br><b>关于对话练习：</b>每节课的对话练习同步发布于 <b>鹅圈子</b>，专区此处挂链接引导，圈子内完成打卡与互评。
+    <b>本周节奏：</b>每周一为<b>训练营</b>（主要内容讲解 + 对话练习），每周三为<b>线上同学会</b>（复习 + 练习，偶尔邀请外部人员参加）——两者共用当周同一节课主题。<br>
+    <b>资料释放：</b>第 1 课（7/27 周一开营）主题已确定，素材陆续上架；后续每节课备齐后即时追加，做到"做一节的开放一节"。<br>
+    <b>对话练习：</b>每节课的对话练习同步发布于 <b>鹅圈子</b>，专区此处挂链接引导，圈子内完成打卡与互评。
   </div>
 
   <a class="eq" href="#" id="eqLink">→ 前往鹅圈子 · 本周对话练习</a>
@@ -124,33 +135,51 @@ const COURSE_END   = new Date("2026-10-31T23:59:59");
 
 const READ  = "https://wangdn2026.github.io/ehs-readalong/";   // 跟读材料
 const FLIP  = "https://wangdn2026.github.io/ehs-flipcards/";   // A6 点读卡
-const TRIAL = "https://wangdn2026.github.io/ehs-trial/";       // 试听样课
 const EQ    = "https://example.com/equanzi";                  // TODO: 替换为你的鹅圈子主页地址
 
-/* 课包 D 12 节课；每节对应一次直播（周一/周三），unlock=该课日期 0 点；
-   coreReady=true 表示跟读/点读等通用素材已可访问，false 表示备课中 */
-function L(n,date,wd,wk,coreReady){
-  return {n,date,wd,wk,mats:[
-    {name:"预习跟读句（生活/EHS）", url:READ, ready:coreReady},
-    {name:"A6 点读卡", url:FLIP, ready:coreReady},
+/* 12 周主题；每周一训练营 + 周三同学会，共用该周主题。
+   L1 主题已知（生活 + EHS 两部分），L2–L12 备课中。 */
+const THEMES = [
+  "医院门诊及承包商安全管理（一）：资格预审、筛选和人场安全准备", // L1
+  null,null,null,null,null,null,null,null,null,null,null           // L2–L12 备课中
+];
+const LIFE = [
+  "医院门诊（就医沟通 / 导诊场景）",
+  null,null,null,null,null,null,null,null,null,null,null
+];
+const EHS = [
+  "承包商安全管理：资格预审、筛选、入场安全准备",
+  null,null,null,null,null,null,null,null,null,null,null
+];
+
+/* 日期：以 2026-07-27（周一）为基准，第 n 周(1..12) 周一与周三 */
+const BASE = new Date(2026, 6, 27); // 2026-07-27 周一
+function datesOf(n){
+  const mon = new Date(BASE); mon.setDate(mon.getDate() + (n-1)*7);
+  const wed = new Date(mon); wed.setDate(wed.getDate() + 2);
+  return {mon, wed};
+}
+function fmt(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0')+"-"+String(d.getDate()).padStart(2,'0'); }
+function wd(d){ return ["周日","周一","周二","周三","周四","周五","周六"][d.getDay()]; }
+
+/* 训练营（周一）材料：L1 通用预习资源可访问，场景剧本/作业备课中 */
+function bootcampMats(n){
+  return [
+    {name:"本课主题导学 · L"+n, url:"#", ready:false},
+    {name:"通用预习跟读句（生活 + EHS）", url:READ, ready:n===1},
+    {name:"A6 点读卡", url:FLIP, ready:n===1},
     {name:"场景带练剧本 L"+n, url:"#", ready:false},
     {name:"本课作业 + 打卡", url:"#", ready:false},
-  ]};
+  ];
 }
-const LESSONS = [
-  L(1, "2026-07-27","周一","W1",true),
-  L(2, "2026-07-29","周三","W1",false),
-  L(3, "2026-08-03","周一","W2",false),
-  L(4, "2026-08-05","周三","W2",false),
-  L(5, "2026-08-10","周一","W3",false),
-  L(6, "2026-08-12","周三","W3",false),
-  L(7, "2026-08-17","周一","W4",false),
-  L(8, "2026-08-19","周三","W4",false),
-  L(9, "2026-08-24","周一","W5",false),
-  L(10,"2026-08-26","周三","W5",false),
-  L(11,"2026-08-31","周一","W6",false),
-  L(12,"2026-09-02","周三","W6",false),
-];
+/* 同学会（周三）材料：复习回顾 + 鹅圈子练习 + 外部嘉宾 */
+function peerMats(n){
+  return [
+    {name:"复习要点回顾 L"+n, url:"#", ready:false},
+    {name:"本周对话练习（鹅圈子）", url:EQ, ready:false},
+    {name:"外部嘉宾分享（如有）", url:"#", ready:false},
+  ];
+}
 
 /* ===== 门禁逻辑 ===== */
 function unlock(){
@@ -163,49 +192,71 @@ function unlock(){
   render();
 }
 
+function renderSlot(title, subtitle, unlockDate, mats){
+  const now = new Date();
+  const locked = now < unlockDate;
+  let h = '<div class="slot'+(locked?' lock':'')+'">';
+  h += '<div class="slot-hd">'+title+'<span class="sub">'+subtitle+'</span></div>';
+  if(locked){
+    h += '<div class="lock-body">🔒 解锁于 '+fmt(unlockDate)+' '+wd(unlockDate)+'</div>';
+  }else{
+    h += '<div class="slot-bd"><ul>';
+    mats.forEach(m=>{
+      if(m.ready && m.url && m.url!=="#"){
+        h += '<li><a href="'+m.url+'" target="_blank">'+m.name+'</a><span class="tag">可访问</span></li>';
+      }else{
+        h += '<li><span class="muted">'+m.name+'</span><span class="tag">备课中</span></li>';
+      }
+    });
+    h += '</ul></div>';
+  }
+  h += '</div>';
+  return h;
+}
+
 function render(){
   const now = new Date();
   const status = document.getElementById("status");
-  const weeksEl = document.getElementById("weeks");
+  const lessonsEl = document.getElementById("lessons");
   document.getElementById("eqLink").href = EQ;
 
-  // 时间窗口总控
   if(now < COURSE_START){
     status.innerHTML = '<div class="banner">📭 尚未开课——本期课程将于 <b>2026-07-27</b> 正式开放，请输入口令后耐心等待。</div>';
-    weeksEl.innerHTML = "";
+    lessonsEl.innerHTML = "";
     return;
   }
   if(now > COURSE_END){
     status.innerHTML = '<div class="banner">🗄️ 已结课——资料访问窗口已于 <b>2026-10-31</b> 关闭并归档。如需回顾请联系教务。</div>';
-    weeksEl.innerHTML = "";
+    lessonsEl.innerHTML = "";
     return;
   }
-  status.innerHTML = '<div class="banner">✅ 课程进行中——课包 D 共 12 节课，按每次课（周一/周三）解锁，持口令可见。</div>';
+  status.innerHTML = '<div class="banner">✅ 课程进行中——共 12 周主题，每周一训练营 + 周三同学会共用同一主题，持口令可见。</div>';
 
-  // 逐课渲染
-  weeksEl.innerHTML = "";
-  LESSONS.forEach(l=>{
-    const unlockDate = new Date(l.date + "T00:00:00");
-    const locked = now < unlockDate;
-    let html = '<div class="card'+(locked?" lock":"")+'">';
-    html += '<div class="hd"><span class="wk">L'+l.n+' · 课包D</span><span class="dt">'+l.date+' '+l.wd+'</span></div>';
-    html += '<div class="bd"'+(locked?' data-unlock="'+l.date+'"':'')+'>';
-    html += '<div class="topic">第'+l.n+'课</div>';
-    html += '<div class="pack">'+l.wk+'</div><ul>';
-    l.mats.forEach(m=>{
-      if(m.ready){
-        html += '<li><a href="'+m.url+'" target="_blank">'+m.name+'</a><span class="tag">可访问</span></li>';
-      }else{
-        html += '<li><span style="color:#aaa">'+m.name+'</span><span class="tag">备课中</span></li>';
-      }
-    });
-    html += '</ul>';
-    if(l.n===1){
-      html += '<div class="prog">🌱 渐进上架：第1课素材已开放，后续逐课补齐。</div>';
+  lessonsEl.innerHTML = "";
+  for(let n=1;n<=12;n++){
+    const ds = datesOf(n);
+    const theme = THEMES[n-1];
+    let html = '<div class="card">';
+    html += '<div class="hd"><span class="lk">L'+n+' · 课包 D</span><span class="wk">第 '+n+' 周</span></div>';
+    if(theme){
+      html += '<div class="theme">'+theme+'</div>';
+      html += '<div class="chips">';
+      if(LIFE[n-1]) html += '<span class="chip chip--life">生活：'+LIFE[n-1]+'</span>';
+      if(EHS[n-1])  html += '<span class="chip chip--ehs">EHS：'+EHS[n-1]+'</span>';
+      html += '</div>';
+    }else{
+      html += '<div class="theme" style="color:#aaa">备课中 · 主题待定</div>';
     }
-    html += '</div></div>';
-    weeksEl.insertAdjacentHTML("beforeend", html);
-  });
+    html += '<div class="slots">';
+    html += renderSlot("周一 · 训练营", fmt(ds.mon)+" "+wd(ds.mon), new Date(ds.mon.getFullYear(),ds.mon.getMonth(),ds.mon.getDate(),0,0,0), bootcampMats(n));
+    html += renderSlot("周三 · 同学会", fmt(ds.wed)+" "+wd(ds.wed), new Date(ds.wed.getFullYear(),ds.wed.getMonth(),ds.wed.getDate(),0,0,0), peerMats(n));
+    html += '</div>';
+    if(n===1){
+      html += '<div class="prog">🌱 渐进上架：第 1 课主题已确定，素材陆续补齐；后续每节课备齐后即时追加。</div>';
+    }
+    html += '</div>';
+    lessonsEl.insertAdjacentHTML("beforeend", html);
+  }
 }
 
 // 已解锁则跳过门禁
