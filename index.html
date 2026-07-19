@@ -80,6 +80,9 @@
   .note{background:#fff;border-left:4px solid var(--orange);border-radius:8px;
     padding:14px 16px;font-size:13px;color:#665;margin-top:24px;}
   .note b{color:var(--orange);}
+  .unlock-rule{background:#eef6ff;border:1px solid var(--line);border-radius:8px;
+    padding:12px 14px;font-size:12.5px;color:#335;margin-top:14px;line-height:1.7;}
+  .unlock-rule b{color:var(--blue);}
 
   /* home fab */
   .home-fab{position:fixed;left:16px;bottom:16px;background:var(--blue);color:#fff;
@@ -108,7 +111,7 @@
   <header class="top">
     <h1>安全五点半 · EHS 英语角</h1>
     <p>学员专区 · 课包 D（承包商 &amp; 高风险一）· 12 周主题逐周开放</p>
-    <span class="badge">课程有效窗口 2026-07-27 ～ 2026-10-31</span>
+    <span class="badge">课程有效窗口 2026-07-24（L1 提前开放）～ 2026-10-31</span>
   </header>
 
   <div id="status"></div>
@@ -117,7 +120,14 @@
   <div class="note">
     <b>本周节奏：</b>每周一为<b>训练营</b>（主要内容讲解 + 对话练习），每周三为<b>线上同学会</b>（复习 + 练习，偶尔邀请外部人员参加）——两者共用当周同一节课主题。<br>
     <b>资料释放：</b>第 1 课（7/27 周一开营）主题已确定，素材陆续上架；后续每节课备齐后即时追加，做到"做一节的开放一节"。<br>
-    <b>对话练习：</b>每节课的对话练习同步发布于 <b>鹅圈子</b>，专区此处挂链接引导，圈子内完成打卡与互评。
+    <b>对话练习：</b>每节课的对话练习（音频 + 文本）同步发布于 <b>鹅圈子</b>，专区此处挂链接引导，圈子内完成打卡与互评。
+  </div>
+
+  <div class="unlock-rule">
+    <b>🔓 解锁规则</b><br>
+    · <b>周一 · 训练营</b>：当周<b>周一前 3 天（周五 00:00）</b>即解锁，可提前预习。<br>
+    · <b>周三 · 同学会</b>：当周<b>周一 20:00</b>解锁，可提前看复习与练习材料。<br>
+    · 全部资料受口令 <b>EHS0727</b> 门禁 + 有效窗口（7/24 ～ 10/31）管控，结课后自动归档。
   </div>
 
   <a class="eq" href="#" id="eqLink">→ 前往鹅圈子 · 本周对话练习</a>
@@ -130,7 +140,7 @@
 <script>
 /* ===== 配置（改这里即可，无需动其他逻辑） ===== */
 const COHORT_PASSWORD = "EHS0727";           // 本期口令（群内发放）
-const COURSE_START = new Date("2026-07-27T00:00:00");
+const COURSE_START = new Date("2026-07-24T00:00:00"); // L1 训练营提前 3 天（7/24）开放，自此起算
 const COURSE_END   = new Date("2026-10-31T23:59:59");
 
 const READ  = "https://wangdn2026.github.io/ehs-readalong/";   // 跟读材料
@@ -159,7 +169,18 @@ function datesOf(n){
   const wed = new Date(mon); wed.setDate(wed.getDate() + 2);
   return {mon, wed};
 }
+/* 解锁时间规则：
+   训练营 = 当周周一 - 3 天（周五 00:00）提前开放
+   同学会 = 当周周一 20:00 开放 */
+function bootcampUnlock(mon){
+  const d = new Date(mon); d.setDate(d.getDate() - 3);
+  d.setHours(0,0,0,0); return d;
+}
+function peerUnlock(mon){
+  const d = new Date(mon); d.setHours(20,0,0,0); return d;
+}
 function fmt(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0')+"-"+String(d.getDate()).padStart(2,'0'); }
+function fmtT(d){ return fmt(d)+" "+wd(d)+" "+String(d.getHours()).padStart(2,'0')+":"+String(d.getMinutes()).padStart(2,'0'); }
 function wd(d){ return ["周日","周一","周二","周三","周四","周五","周六"][d.getDay()]; }
 
 /* 训练营（周一）材料：L1 通用预习资源可访问，场景剧本/作业备课中 */
@@ -198,7 +219,7 @@ function renderSlot(title, subtitle, unlockDate, mats){
   let h = '<div class="slot'+(locked?' lock':'')+'">';
   h += '<div class="slot-hd">'+title+'<span class="sub">'+subtitle+'</span></div>';
   if(locked){
-    h += '<div class="lock-body">🔒 解锁于 '+fmt(unlockDate)+' '+wd(unlockDate)+'</div>';
+    h += '<div class="lock-body">🔒 解锁于 '+fmtT(unlockDate)+'</div>';
   }else{
     h += '<div class="slot-bd"><ul>';
     mats.forEach(m=>{
@@ -221,7 +242,7 @@ function render(){
   document.getElementById("eqLink").href = EQ;
 
   if(now < COURSE_START){
-    status.innerHTML = '<div class="banner">📭 尚未开课——本期课程将于 <b>2026-07-27</b> 正式开放，请输入口令后耐心等待。</div>';
+    status.innerHTML = '<div class="banner">📭 尚未开放——本期课程将于 <b>2026-07-24</b> 起逐步开放（L1 训练营提前 3 天解锁），请输入口令后耐心等待。</div>';
     lessonsEl.innerHTML = "";
     return;
   }
@@ -230,7 +251,7 @@ function render(){
     lessonsEl.innerHTML = "";
     return;
   }
-  status.innerHTML = '<div class="banner">✅ 课程进行中——共 12 周主题，每周一训练营 + 周三同学会共用同一主题，持口令可见。</div>';
+  status.innerHTML = '<div class="banner">✅ 课程进行中——共 12 周主题，每周一训练营（提前 3 天）+ 周三同学会（周一 20:00）共用同一主题，持口令可见。</div>';
 
   lessonsEl.innerHTML = "";
   for(let n=1;n<=12;n++){
@@ -248,8 +269,8 @@ function render(){
       html += '<div class="theme" style="color:#aaa">备课中 · 主题待定</div>';
     }
     html += '<div class="slots">';
-    html += renderSlot("周一 · 训练营", fmt(ds.mon)+" "+wd(ds.mon), new Date(ds.mon.getFullYear(),ds.mon.getMonth(),ds.mon.getDate(),0,0,0), bootcampMats(n));
-    html += renderSlot("周三 · 同学会", fmt(ds.wed)+" "+wd(ds.wed), new Date(ds.wed.getFullYear(),ds.wed.getMonth(),ds.wed.getDate(),0,0,0), peerMats(n));
+    html += renderSlot("周一 · 训练营", "提前 3 天（周五）解锁 · "+fmt(ds.mon)+" "+wd(ds.mon), bootcampUnlock(ds.mon), bootcampMats(n));
+    html += renderSlot("周三 · 同学会", "周一 20:00 解锁 · "+fmt(ds.wed)+" "+wd(ds.wed), peerUnlock(ds.mon), peerMats(n));
     html += '</div>';
     if(n===1){
       html += '<div class="prog">🌱 渐进上架：第 1 课主题已确定，素材陆续补齐；后续每节课备齐后即时追加。</div>';
