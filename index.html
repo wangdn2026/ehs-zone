@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>学员专区 · 安全五点半 EHS 英语角</title>
+<title>学员专区 · 安全五点半 EHS 英语训练营</title>
 <style>
   :root{
     --blue:#0066cc; --blue-light:#66a8ff; --orange:#ff7700;
@@ -109,7 +109,7 @@
 
 <div class="wrap" id="main" style="display:none;">
   <header class="top">
-    <h1>安全五点半 · EHS 英语角</h1>
+    <h1>安全五点半 · EHS 英语训练营</h1>
     <p>学员专区 · 课包 D（承包商 &amp; 高风险一）· 12 周主题逐周开放</p>
     <span class="badge">课程有效窗口 2026-07-24（L1 提前开放）～ 2026-10-31</span>
   </header>
@@ -132,7 +132,7 @@
 
   <a class="eq" href="https://wangdn2026.github.io/ehs-zone/" id="eqLink">→ 学员专区 · 本周资料（口令 EHS0727）</a>
 
-  <footer>本专区资料仅在课程有效窗口内可访问，结课后自动归档。最终解释权归安全五点半 EHS 英语角。</footer>
+  <footer>本专区资料仅在课程有效窗口内可访问，结课后自动归档。最终解释权归安全五点半 EHS 英语训练营。</footer>
 </div>
 
 <a class="home-fab" href="https://wangdn2026.github.io/ehs-shelf/">← 返回书架</a>
@@ -151,15 +151,18 @@ const EQ    = "https://wangdn2026.github.io/ehs-zone/";       // 学员专区（
    L1 主题已知（生活 + EHS 两部分），L2–L12 备课中。 */
 const THEMES = [
   "医院门诊及承包商安全管理（一）：资格预审、筛选和人场安全准备", // L1
-  null,null,null,null,null,null,null,null,null,null,null           // L2–L12 备课中
+  "博物馆和历史遗迹及承包商安全管理（二）：承包商工作过程中的安全管理", // L2
+  null,null,null,null,null,null,null,null,null,null           // L3–L12 备课中
 ];
 const LIFE = [
   "医院门诊（就医沟通 / 导诊场景）",
-  null,null,null,null,null,null,null,null,null,null,null
+  "博物馆和历史遗迹（参观问询 / 导览场景）",
+  null,null,null,null,null,null,null,null,null,null
 ];
 const EHS = [
-  "承包商安全管理：资格预审、筛选、入场安全准备",
-  null,null,null,null,null,null,null,null,null,null,null
+  "承包商安全管理（一）：资格预审、筛选、入场安全准备",
+  "承包商安全管理（二）：现场作业安全管理",
+  null,null,null,null,null,null,null,null,null,null
 ];
 
 /* 日期：以 2026-07-27（周一）为基准，第 n 周(1..12) 周一与周三 */
@@ -187,8 +190,8 @@ function wd(d){ return ["周日","周一","周二","周三","周四","周五","�
 function bootcampMats(n){
   return [
     {name:"本课主题导学 · L"+n, url:"#", ready:false},
-    {name:"通用预习跟读句（生活 + EHS）", url:READ, ready:n===1},
-    {name:"A6 点读卡", url:FLIP, ready:n===1},
+    {name:"通用预习跟读句（生活 + EHS）", url:READ, ready:n===1||n===2},
+    {name:"A6 点读卡", url:FLIP, ready:n===1||n===2},
     {name:"场景带练剧本 L"+n, url:"#", ready:false},
     {name:"本课作业 + 打卡", url:"#", ready:false},
   ];
